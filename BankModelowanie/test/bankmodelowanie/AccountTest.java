@@ -119,7 +119,7 @@ public class AccountTest {
     
      /**
      * Test of calculateInterest method, of class Account.
-     */
+     *
     @Test
     public void testCalculateInterestChange() {
         System.out.println("calculateInterest");
@@ -129,21 +129,26 @@ public class AccountTest {
         instance.performOperation(operation);
         instance.calculateIntrest();
         assertEquals(1000.f, instance.getMoney().getAmount(), 0.01);
+    }*/
+
+    @Test
+    public void testVisitator() {
+        Visitor visitor = new TextVisitor();
+        Account instance = this.fixture;
+      
+        Currency curr = new Currency(1000.0f, CurrencyUnit.PLN);
+
+        Operation operation = new TransferOperation(curr, anotherAccount, fixture);
+        Operation operation2 = new TransferOperation(curr, fixture, anotherAccount);
+        instance.performOperation(operation);
+        instance.performOperation(operation2);
+        
+        instance.Accept(visitor);
+        
+        visitor = new CsvVisitor();
+        instance.Accept(visitor);
+        
+        assertFalse(false);
     }
 
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-    
 }

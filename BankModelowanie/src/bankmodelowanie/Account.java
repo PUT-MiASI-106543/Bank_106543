@@ -92,8 +92,14 @@ public class Account {
             }
         }
     }
-        
     
+    public void Accept(Visitor visitor)
+    {
+        for(Operation op : history.getHistory())
+        {
+            op.Accept(visitor);
+        }
+    }
     /**
      * @return the money
      */

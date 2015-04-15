@@ -46,4 +46,14 @@ public class TransferOperation extends Operation{
     public Account getReciver() {
         return receiver;
     }
+    
+    public void Accept(Visitor visitor)
+    {
+        visitor.TransferOperationVisitor(this);
+    }
+    
+    public String getReport()
+    {
+        return money.getAmount().toString()+", "+sender.getAccountNumber().toString()+", "+receiver.getAccountNumber().toString();
+    }
 }

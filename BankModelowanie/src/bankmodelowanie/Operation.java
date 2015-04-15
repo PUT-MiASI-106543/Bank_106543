@@ -16,12 +16,23 @@ public abstract class Operation {
     protected Boolean accepted;
 
     /**
+     * visitator element
+     * @param visitor 
+     */
+    public void Accept(Visitor visitor){ }
+    
+    /**
      * @return the date
      */
     public Date getDate() {
         return date;
     }
-
+    
+    /**
+     * @return the report
+     */
+    public String getReport(){return "";}
+    
     /**
      * @return the accepted
      */
