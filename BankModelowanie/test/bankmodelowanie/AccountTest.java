@@ -151,4 +151,11 @@ public class AccountTest {
         assertFalse(false);
     }
 
+    @Test
+    public void testDecorator() {
+        IAccount acc = this.fixture;
+        acc = new AccountCredit(acc, new Currency(1000.0f, CurrencyUnit.PLN));
+        
+        
+    }
 }

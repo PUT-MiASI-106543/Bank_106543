@@ -12,7 +12,7 @@ import java.util.Objects;
  * @author adam.pacanowski
  * @author adam.kedzia
  */
-public class Account {
+public class Account implements IAccount{
     private Long accountNumber;
     private Currency money;
     private Float interest;
