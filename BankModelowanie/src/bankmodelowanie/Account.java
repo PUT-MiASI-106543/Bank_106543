@@ -24,7 +24,7 @@ public class Account implements IAccount{
 
    
    
-    void performOperation(Operation operation){
+    public void performOperation(Operation operation){
         if (this.getValidator().validateOperation(operation)) {
             if (operation.getClass().equals(TransferOperation.class)) {
                 TransferOperation transfer = (TransferOperation) operation;

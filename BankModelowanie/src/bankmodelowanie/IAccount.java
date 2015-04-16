@@ -20,4 +20,5 @@ public interface IAccount {
         public Bank getBank();
         public ArrayList<Customer> getCustomer();
         public OperationValidator getValidator();
+        public void performOperation(Operation operation);
 }

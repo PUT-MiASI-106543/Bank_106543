@@ -154,8 +154,19 @@ public class AccountTest {
     @Test
     public void testDecorator() {
         IAccount acc = this.fixture;
-        acc = new AccountCredit(acc, new Currency(1000.0f, CurrencyUnit.PLN));
+        acc = new AccountCredit(acc, new Currency(300.0f, CurrencyUnit.PLN));
         
+        Currency curr = new Currency(1200.0f, CurrencyUnit.PLN);
+
+        Operation operation = new TransferOperation(new Currency(1000.0f, CurrencyUnit.PLN), anotherAccount, fixture);
+        Operation operation2 = new TransferOperation(new Currency(1100.0f, CurrencyUnit.PLN), fixture, anotherAccount);
         
+        acc.performOperation(operation2);
+        
+        assertEquals(0.f, acc.getMoney().getAmount(), 0.1f);
+        
+        acc.performOperation(operation);
+        
+        assertEquals(900.0f, acc.getMoney().getAmount(), 0.1f);
     }
 }

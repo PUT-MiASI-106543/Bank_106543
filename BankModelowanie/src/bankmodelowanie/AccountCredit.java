@@ -19,8 +19,13 @@ public class AccountCredit implements IAccOption {
         this.fullDebit = debit.getAmount();
     }
     
+    public Currency getDebit(){
+        return debit;
+    }
+            
+    
     @Override
-    public void fromDebit(Operation operation) {
+    public void performOperation(Operation operation) {
         if(operation.getClass().equals(TransferOperation.class)){
                 TransferOperation transfer = (TransferOperation) operation;
                 if(this.equals(transfer.getSender()))
@@ -34,10 +39,12 @@ public class AccountCredit implements IAccOption {
                     {
                         debit.setAmount(debit.getAmount() - (transfer.getMoney().getAmount() - acc.getMoney().getAmount()));
                         acc.getMoney().setAmount(0.0f);
+                        acc.getHistory().addOperation(operation);
                     }
                     else if(transfer.getMoney().getAmount() <= acc.getMoney().getAmount())
                     {
                         acc.getMoney().setAmount(acc.getMoney().getAmount() - transfer.getMoney().getAmount());
+                        acc.getHistory().addOperation(operation);
                     }
                 }   
                 else if(transfer.getReciver().equals(acc))
@@ -45,17 +52,23 @@ public class AccountCredit implements IAccOption {
                     float difference = fullDebit - debit.getAmount();
                     if(difference > 0)
                     {
-                        if(difference > transfer.getMoney().getAmount())
+                        if(difference < transfer.getMoney().getAmount())
                         {
                             debit.setAmount(fullDebit);
                             acc.getMoney().setAmount(acc.getMoney().getAmount() + (transfer.getMoney().getAmount() - difference));
+                            acc.getHistory().addOperation(operation);
                         }
                         else
+                        {
                             debit.setAmount(debit.getAmount()+transfer.getMoney().getAmount());
+                            acc.getHistory().addOperation(operation);
+                        }
+                            
                     }   
                     else
                     {
                         acc.getMoney().setAmount(acc.getMoney().getAmount() + transfer.getMoney().getAmount());
+                        acc.getHistory().addOperation(operation);
                     }
                 }
         }

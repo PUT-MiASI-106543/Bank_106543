@@ -13,22 +13,5 @@ import java.util.ArrayList;
  */
 public interface IAccOption extends IAccount{
 
-    public void fromDebit(Operation operation);
-    @Override
-    public Currency getMoney();
-    @Override
-    public Float getInterest();
-    @Override
-    public void setInterest(Float interest);
-    @Override
-    public OperationsHistory getHistory();
-    @Override
-    public Long getAccountNumber();
-    @Override
-    public Bank getBank();
-    @Override
-    public ArrayList<Customer> getCustomer();
-    @Override
-    public OperationValidator getValidator();
     
 }
