@@ -208,4 +208,26 @@ public class AccountTest {
         
         assertEquals(1500.0f, this.accountB.getMoney().getAmount(), 0.1f);
     }
+    
+    @Test
+    public void testChainOfResponsibility()
+    {
+        Account instance = this.fixture;
+        instance.getMoney().setAmount(200000.0f);
+        
+        Operation operation = new TransferOperation(new Currency(25000.0f, CurrencyUnit.PLN), fixture, anotherAccount);
+        
+        AccountChain chain = new AccountChain(instance, (TransferOperation)operation);
+        
+        assertFalse(chain.operation());
+        
+        Operation operation2 = new TransferOperation(new Currency(1000.0f, CurrencyUnit.PLN), fixture, anotherAccount);
+        instance.performOperation(operation2, true);
+        instance.performOperation(operation2, true);
+        instance.performOperation(operation2, true);
+        instance.performOperation(operation2, true);
+        
+        AccountChain chain2 = new AccountChain(instance, (TransferOperation)operation2);
+        assertFalse(chain2.operation());
+    }
 }
