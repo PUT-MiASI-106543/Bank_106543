@@ -24,8 +24,8 @@ public class Account implements IAccount{
 
    
    
-    public void performOperation(Operation operation){
-        if (this.getValidator().validateOperation(operation)) {
+    public void performOperation(Operation operation, boolean exist){
+        if (this.getValidator().validateOperation(operation) || exist) {
             if (operation.getClass().equals(TransferOperation.class)) {
                 TransferOperation transfer = (TransferOperation) operation;
                 history.addOperation(operation);
@@ -35,6 +35,7 @@ public class Account implements IAccount{
                 }else{
                     getMoney().setAmount(getMoney().getAmount() + transfer.getMoney().getAmount());
                 }
+                if(!exist) bank.kir.sheduleTransferOperation(transfer);
             }
         }
     }

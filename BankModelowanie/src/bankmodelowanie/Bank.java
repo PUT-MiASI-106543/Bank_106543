@@ -5,6 +5,7 @@
  */
 package bankmodelowanie;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,11 +16,22 @@ public class Bank {
     private Integer id;
     private List<Customer> customers;
     private List<Product> products;
+    public KIR kir;
     
     
+    public Bank(int id){
+        this.id = id;
+        customers = new ArrayList<Customer>();
+        products = new ArrayList<Product>();
+        kir = new KIR();
+    }
     
-    public Bank(){
-        this.id = 213123;
+    public void transferFromKir(TransferOperation top) {
+        for(Customer c: customers)
+        {
+            if(c.doOperation(top, true))
+                break;
+        }
     }
     
     public Customer getCustomerByPESEL(String PESEL){
@@ -53,4 +65,6 @@ public class Bank {
     public Integer getId() {
         return id;
     }
+
+
 }

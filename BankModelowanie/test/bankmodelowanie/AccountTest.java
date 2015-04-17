@@ -20,7 +20,8 @@ import static org.junit.Assert.*;
 public class AccountTest {
     private Account fixture;
     private Account anotherAccount;
-    
+    private Bank bankA, bankB;
+    private Account accountA, accountB;
     public AccountTest() {
       
     }
@@ -36,10 +37,13 @@ public class AccountTest {
     @Before
     public void setUp() {
       Customer customer = new Customer("Adam", "Kedzia", "109090321900");
+      Customer customerPrim = new Customer("Adam", "Melon", "143390321900");
       ArrayList<Customer> customerArray = new ArrayList<>();
       customerArray.add(customer);
       
-      Bank bank = new Bank();
+      
+      
+      Bank bank = new Bank(123456);
       Currency curr = new Currency(1000.0f, CurrencyUnit.PLN);
       Float interests = 0.5f;
       long accNumber = 1234567890;
@@ -47,7 +51,25 @@ public class AccountTest {
       OperationValidator validator = new DebitAccountValidator(-1000.f);
       LinearInterest state = new LinearInterest(5.f);
       this.fixture = new Account(bank, customerArray, accNumber, curr, validator,0.02f);
-      this.anotherAccount =  new Account(bank, customerArray, (long)9328443, curr, validator,0.02f);
+      this.anotherAccount =  new Account(bank, customerArray, (long)9328443, new Currency(1000.0f, CurrencyUnit.PLN), validator,0.02f);
+
+      bankA = new Bank(123);
+      bankB = new Bank(456);
+      
+      bankA.kir = bankA.kir.getInstance();
+      bankB.kir = bankA.kir.getInstance();
+      
+      this.accountA = new Account(bankA, customerArray, (long)4391234, curr, validator, 0.02f);
+      this.accountB = new Account(bankB, customerArray, (long)9328443, new Currency(1000.0f, CurrencyUnit.PLN), validator, 0.02f);
+      
+      customer.addAccount(accountA);
+      customerPrim.addAccount(accountB);
+      
+
+      bankA.addCustomer(customer);
+      bankB.addCustomer(customerPrim);
+      
+
     }
     
     @After
@@ -63,9 +85,9 @@ public class AccountTest {
         Currency curr = new Currency(1000.0f, CurrencyUnit.PLN);
 
         Operation operation = new TransferOperation(curr, anotherAccount, fixture);
-        Account instance = fixture;
-        instance.performOperation(operation);
-        assertEquals(2000.f, instance.getMoney().getAmount(), 0.01);
+        Account instance = anotherAccount;
+        instance.performOperation(operation, false);
+        assertEquals(2000.f, this.fixture.getMoney().getAmount(), 0.01);
     }
     
      @Test
@@ -75,7 +97,7 @@ public class AccountTest {
 
         Operation operation = new TransferOperation(curr, fixture, anotherAccount);
         Account instance = fixture;
-        instance.performOperation(operation);
+        instance.performOperation(operation, false);
         assertEquals(0.f, instance.getMoney().getAmount(), 0.01);
     }
 
@@ -140,8 +162,8 @@ public class AccountTest {
 
         Operation operation = new TransferOperation(curr, anotherAccount, fixture);
         Operation operation2 = new TransferOperation(curr, fixture, anotherAccount);
-        instance.performOperation(operation);
-        instance.performOperation(operation2);
+        instance.performOperation(operation, false);
+        instance.performOperation(operation2, false);
         
         instance.Accept(visitor);
         
@@ -161,12 +183,29 @@ public class AccountTest {
         Operation operation = new TransferOperation(new Currency(1000.0f, CurrencyUnit.PLN), anotherAccount, fixture);
         Operation operation2 = new TransferOperation(new Currency(1100.0f, CurrencyUnit.PLN), fixture, anotherAccount);
         
-        acc.performOperation(operation2);
+        acc.performOperation(operation2, false);
         
         assertEquals(0.f, acc.getMoney().getAmount(), 0.1f);
         
-        acc.performOperation(operation);
+        acc.performOperation(operation, false);
         
         assertEquals(900.0f, acc.getMoney().getAmount(), 0.1f);
+    }
+    
+    @Test
+    public void testMediator()
+    {
+        bankA.kir.addBank(bankA);
+        bankA.kir.addBank(bankB);
+        Operation operation = new TransferOperation(new Currency(500.0f, CurrencyUnit.PLN), accountA, accountB);
+        
+        this.accountA.performOperation(operation, false);
+        
+        assertEquals(500.0f, this.fixture.getMoney().getAmount(), 0.1f);
+        
+       
+        bankA.kir.sendTransfers();
+        
+        assertEquals(1500.0f, this.accountB.getMoney().getAmount(), 0.1f);
     }
 }

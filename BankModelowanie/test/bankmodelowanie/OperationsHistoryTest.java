@@ -53,7 +53,7 @@ public class OperationsHistoryTest {
       ArrayList<Customer> customerArray = new ArrayList<>();
       customerArray.add(customer);
       
-      Bank bank = new Bank();
+      Bank bank = new Bank(123456);
       Currency curr = new Currency(1000.0f, CurrencyUnit.PLN);
       Currency curr2 = new Currency(1000.0f, CurrencyUnit.PLN);
 

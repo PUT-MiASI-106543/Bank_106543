@@ -25,7 +25,7 @@ public class CreditCard {
     
     public void performOperation(Operation operation)
     {
-        account.performOperation(operation);
+        account.performOperation(operation, false);
     }
 
     public Customer getCustomer() {

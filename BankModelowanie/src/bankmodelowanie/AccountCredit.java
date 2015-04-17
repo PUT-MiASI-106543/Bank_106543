@@ -25,7 +25,7 @@ public class AccountCredit implements IAccOption {
             
     
     @Override
-    public void performOperation(Operation operation) {
+    public void performOperation(Operation operation, boolean exist) {
         if(operation.getClass().equals(TransferOperation.class)){
                 TransferOperation transfer = (TransferOperation) operation;
                 if(this.equals(transfer.getSender()))

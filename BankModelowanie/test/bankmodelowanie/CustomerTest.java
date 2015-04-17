@@ -26,7 +26,7 @@ public class CustomerTest {
         cust = new Customer("Janusz", "Nowak", "93010101234");
         ArrayList<Customer> list = new ArrayList<>();
         list.add(cust);
-        acc = new Account(new Bank(), list, 1234567890l, new Currency(100f, CurrencyUnit.PLN),new DebitAccountValidator(100f)); 
+        acc = new Account(new Bank(123456), list, 1234567890l, new Currency(100f, CurrencyUnit.PLN),new DebitAccountValidator(100f)); 
     }
     
     @After
@@ -45,10 +45,10 @@ public class CustomerTest {
         
         ArrayList<Customer> list = new ArrayList<>();
         list.add(cust2);
-        Account acc2 = new Account(new Bank(), list, 1234567891l, new Currency(100f, CurrencyUnit.PLN),new DebitAccountValidator(0f)); 
+        Account acc2 = new Account(new Bank(123456), list, 1234567891l, new Currency(100f, CurrencyUnit.PLN),new DebitAccountValidator(0f)); 
         
         Operation op = new TransferOperation(new Currency(30.0f, CurrencyUnit.PLN), acc, acc2);
-        cust.doOperation(op);
+        cust.doOperation(op, true);
         
         assertEquals(70.0f, acc.getMoney().getAmount(), 0.1);
     }

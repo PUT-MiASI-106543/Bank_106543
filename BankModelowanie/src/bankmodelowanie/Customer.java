@@ -26,13 +26,14 @@ public class Customer {
         accounts = new ArrayList<>();
     }
     
-    public void doOperation(Operation operation){
-        if(getAccounts().contains(((TransferOperation)operation).getSender())){
-            Account acc = ((TransferOperation)operation).getSender();
-            acc.performOperation(operation);
+    public boolean doOperation(Operation operation, boolean exist){
+        if(getAccounts().contains(((TransferOperation)operation).getReciver())){
+            Account acc = ((TransferOperation)operation).getReciver();
+            acc.performOperation(operation, exist);
+            return true;
         }
         else{
-            //Exception
+            return false;
         }
     }
     
