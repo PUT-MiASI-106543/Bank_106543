@@ -219,6 +219,7 @@ public class AccountTest {
         
         AccountChain chain = new AccountChain(instance, (TransferOperation)operation);
         
+        
         assertFalse(chain.operation());
         
         Operation operation2 = new TransferOperation(new Currency(1000.0f, CurrencyUnit.PLN), fixture, anotherAccount);

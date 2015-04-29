@@ -15,6 +15,7 @@ public class AccountChainNumberOfOperation extends AccountChain{
     Account acc;
     TransferOperation top;
     HashMap<Account, Integer> transfers;
+    AccountChain next;
     public AccountChainNumberOfOperation(Account acc, TransferOperation top) {
         super(acc, top);
         this.acc = acc;
@@ -38,5 +39,10 @@ public class AccountChainNumberOfOperation extends AccountChain{
         if(counter > 3)
             return false;
         return true;
+    }
+    @Override
+    public void setNext(AccountChain ac)
+    {
+        this.next = ac;
     }
 }

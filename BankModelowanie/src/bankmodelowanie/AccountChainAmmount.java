@@ -17,9 +17,9 @@ public class AccountChainAmmount extends AccountChain{
     public AccountChainAmmount(Account acc, TransferOperation top)
     {
         super(acc, top);
-        next = new AccountChainNumberOfOperation(acc, top);
         this.acc = acc;
         this.top = top;
+        this.next = new AccountChainNumberOfOperation(acc, top);
     }
 
     @Override
@@ -29,5 +29,9 @@ public class AccountChainAmmount extends AccountChain{
             return false;
         }
         return next.operation();
+    }
+    @Override
+    public void setNext(AccountChain ac){
+        this.next = ac;
     }
 }

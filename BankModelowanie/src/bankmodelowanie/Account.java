@@ -24,6 +24,7 @@ public class Account implements IAccount{
 
    
    
+    @Override
     public void performOperation(Operation operation, boolean exist){
         if (this.getValidator().validateOperation(operation) || exist) {
             if (operation.getClass().equals(TransferOperation.class)) {
@@ -104,6 +105,7 @@ public class Account implements IAccount{
     /**
      * @return the money
      */
+    @Override
     public Currency getMoney() {
         return money;
     }
@@ -111,6 +113,7 @@ public class Account implements IAccount{
     /**
      * @return the interest
      */
+    @Override
     public Float getInterest() {
         return interest;
     }
@@ -118,6 +121,7 @@ public class Account implements IAccount{
     /**
      * @param interest the interest to set
      */
+    @Override
     public void setInterest(Float interest) {
         this.interest = interest;
     }
@@ -125,6 +129,7 @@ public class Account implements IAccount{
     /**
      * @return the history
      */
+    @Override
     public OperationsHistory getHistory() {
         return history;
     }
@@ -132,6 +137,7 @@ public class Account implements IAccount{
     /**
      * @return the accountNumber
      */
+    @Override
     public Long getAccountNumber() {
         return accountNumber;
     }
@@ -139,6 +145,7 @@ public class Account implements IAccount{
     /**
      * @return the bank
      */
+    @Override
     public Bank getBank() {
         return bank;
     }
@@ -146,6 +153,7 @@ public class Account implements IAccount{
     /**
      * @return the customer
      */
+    @Override
     public ArrayList<Customer> getCustomer() {
         return customers;
     }
@@ -153,6 +161,7 @@ public class Account implements IAccount{
     /**
      * @return the validator
      */
+    @Override
     public OperationValidator getValidator() {
         return validator;
     }

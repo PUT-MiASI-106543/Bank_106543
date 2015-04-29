@@ -14,11 +14,16 @@ import java.util.List;
 public class AccountChain {
     Account acc;
     TransferOperation top;
+    AccountChain next;
     public AccountChain(Account acc, TransferOperation top){
         this.acc = acc;
         this.top = top;
+        this.next = new AccountChainAmmount(acc, top);
     }
     public boolean operation(){
         return new AccountChainAmmount(acc, top).operation();
+    }
+    public void setNext(AccountChain ac){
+        this.next = ac;
     }
 }
