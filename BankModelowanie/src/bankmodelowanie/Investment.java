@@ -13,11 +13,11 @@ import java.util.Date;
  */
 public class Investment extends Product{
     
-    private Currency ammount;
+    private ICurrency ammount;
     private int rate;
     private Date endingDate;
     
-    public Investment(Date date, Customer customer, Currency ammount, int rate, Date endingDate) {
+    public Investment(Date date, Customer customer, ICurrency ammount, int rate, Date endingDate) {
         super(date, customer);
         
         this.ammount = ammount;
@@ -25,7 +25,7 @@ public class Investment extends Product{
         this.endingDate = endingDate;
     }
     
-    public void setAmmount(Currency ammount) {
+    public void setAmmount(ICurrency ammount) {
         this.ammount = ammount;
     }
 
@@ -37,7 +37,7 @@ public class Investment extends Product{
         this.endingDate = endingDate;
     }
 
-    public Currency getAmmount() {
+    public ICurrency getAmmount() {
         return ammount;
     }
 

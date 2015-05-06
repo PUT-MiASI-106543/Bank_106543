@@ -10,16 +10,16 @@ import java.util.ArrayList;
 
 public class AccountCredit implements IAccOption {
     IAccount acc;
-    Currency debit;
+    ICurrency debit;
     float fullDebit;
-    AccountCredit(IAccount acc, Currency debit)
+    AccountCredit(IAccount acc, ICurrency debit)
     {
         this.acc = acc;
         this.debit = debit;
         this.fullDebit = debit.getAmount();
     }
     
-    public Currency getDebit(){
+    public ICurrency getDebit(){
         return debit;
     }
             
@@ -75,7 +75,7 @@ public class AccountCredit implements IAccOption {
     }
 
     @Override
-    public Currency getMoney() {
+    public ICurrency getMoney() {
         return acc.getMoney();
     }
 
@@ -100,18 +100,43 @@ public class AccountCredit implements IAccOption {
     }
 
     @Override
-    public Bank getBank() {
+    public IBank getBank() {
         return acc.getBank();
     }
 
     @Override
-    public ArrayList<Customer> getCustomer() {
+    public ArrayList<ICustomer> getCustomer() {
         return acc.getCustomer();
     }
 
     @Override
     public OperationValidator getValidator() {
         return acc.getValidator();
+    }
+
+    @Override
+    public void setBank(IBank bank) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setCustomer(ArrayList<ICustomer> customer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setMoney(ICurrency money) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setOperationValidator(OperationValidator validator) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setState(InterestState linearInterest) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

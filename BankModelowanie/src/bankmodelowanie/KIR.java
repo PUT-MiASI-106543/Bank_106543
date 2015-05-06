@@ -15,7 +15,7 @@ import java.util.Objects;
  *
  * @author adam.kedzia
  */
-public class KIR {
+public class KIR implements IKir {
    
    private static KIR instance = null;
    private HashMap<Integer, ArrayList<TransferOperation>> transfersToSend;
@@ -72,7 +72,7 @@ public class KIR {
            operation.getReciver().performOperation(operation, true);
        }
    }
-   private void putTransferInQueue(TransferOperation operation){
+   public void putTransferInQueue(TransferOperation operation){
        if (transfersToSend.containsKey(operation.getReciver().getBank().getId())) {
            transfersToSend.get(operation.getReciver().getBank().getId()).add(operation);
        }else {

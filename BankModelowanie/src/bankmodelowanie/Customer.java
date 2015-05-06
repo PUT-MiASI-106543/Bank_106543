@@ -13,11 +13,15 @@ import java.util.Objects;
  *
  * @author adam.pacanowski
  */
-public class Customer {
+public class Customer implements ICustomer{
     private String name;
     private String surname;
     private String PESEL;
-    private List<Account> accounts;
+    private List<IAccount> accounts;
+    
+    public Customer(){
+        accounts = new ArrayList<>();
+    }
     
     public Customer(String name, String surname, String PESEL){
     	this.name = name;
@@ -26,6 +30,7 @@ public class Customer {
         accounts = new ArrayList<>();
     }
     
+    @Override
     public boolean doOperation(Operation operation, boolean exist){
         if(getAccounts().contains(((TransferOperation)operation).getReciver())){
             Account acc = ((TransferOperation)operation).getReciver();
@@ -50,17 +55,20 @@ public class Customer {
         return hash;
     }
     
-    public void addAccount(Account acc){
+    @Override
+    public void addAccount(IAccount acc){
         getAccounts().add(acc);
     }
     
-    public void removeAccount(Account acc){
+    @Override
+    public void removeAccount(IAccount acc){
         getAccounts().remove(acc);
     }
 
     /**
      * @return the name
      */
+    @Override
     public String getName() {
         return name;
     }
@@ -68,6 +76,7 @@ public class Customer {
     /**
      * @param name the name to set
      */
+    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -75,6 +84,7 @@ public class Customer {
     /**
      * @return the surname
      */
+    @Override
     public String getSurname() {
         return surname;
     }
@@ -82,6 +92,7 @@ public class Customer {
     /**
      * @param surname the surname to set
      */
+    @Override
     public void setSurname(String surname) {
         this.surname = surname;
     }
@@ -89,6 +100,7 @@ public class Customer {
     /**
      * @return the PESEL
      */
+    @Override
     public String getPESEL() {
         return PESEL;
     }
@@ -96,6 +108,7 @@ public class Customer {
     /**
      * @param PESEL the PESEL to set
      */
+    @Override
     public void setPESEL(String PESEL) {
         this.PESEL = PESEL;
     }
@@ -103,7 +116,8 @@ public class Customer {
     /**
      * @return the accounts
      */
-    public List<Account> getAccounts() {
+    @Override
+    public List<IAccount> getAccounts() {
         return accounts;
     }
     

@@ -6,19 +6,28 @@
 package bankmodelowanie;
 
 import java.util.ArrayList;
-
 /**
  *
  * @author MeloneQ
  */
 public interface IAccount {
-        public Currency getMoney();
+        public ICurrency getMoney();
         public Float getInterest();
         public void setInterest(Float interest);
         public OperationsHistory getHistory();
         public Long getAccountNumber();
-        public Bank getBank();
-        public ArrayList<Customer> getCustomer();
+        public IBank getBank();
+        public ArrayList<ICustomer> getCustomer();
         public OperationValidator getValidator();
         public void performOperation(Operation operation, boolean exist);
+
+    public void setBank(IBank bank);
+
+    public void setCustomer(ArrayList<ICustomer> customer);
+
+    public void setMoney(ICurrency money);
+
+    public void setOperationValidator(OperationValidator validator);
+
+    public void setState(InterestState linearInterest);
 }

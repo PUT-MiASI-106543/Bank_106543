@@ -12,14 +12,14 @@ import java.util.Date;
  * @author adam.kedzia
  */
 public class TransferOperation extends Operation{
-    private Currency money;
+    private ICurrency money;
     private Account sender;
     private Account receiver;
 
     
     
     
-   public TransferOperation(Currency money, Account sender, Account receiver){
+   public TransferOperation(ICurrency money, Account sender, Account receiver){
        this.date = new Date();
        this.accepted = null;
        this.money = money;
@@ -29,7 +29,7 @@ public class TransferOperation extends Operation{
     /**
      * @return the money
      */
-    public Currency getMoney() {
+    public ICurrency getMoney() {
         return money;
     }
 

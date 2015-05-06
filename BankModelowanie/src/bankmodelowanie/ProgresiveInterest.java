@@ -15,9 +15,9 @@ public class ProgresiveInterest implements InterestState {
         this.no = 0;
     }
     @Override
-    public Currency calculateInterest(Account acc){
+    public ICurrency calculateInterest(Account acc){
         this.no++;
         float percent = Math.max(this.no * 0.5f, 4.00f);
-        return new Currency(acc.getMoney().getAmount() * percent * 0.01f, acc.getMoney().getCurrency());
+        return BankModelowanie.dInjector.InjectCurrency(acc.getMoney().getAmount() * percent * 0.01f, acc.getMoney().getCurrency());
     }
 }

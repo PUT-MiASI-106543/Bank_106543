@@ -11,7 +11,7 @@ package bankmodelowanie;
  */
 
 
-public class Currency {
+public class Currency implements ICurrency{
     private Float amount;
     private CurrencyUnit currency;
 
@@ -23,6 +23,7 @@ public class Currency {
     /**
      * @return the amount
      */
+    @Override
     public Float getAmount() {
         return amount;
     }
@@ -30,6 +31,7 @@ public class Currency {
     /**
      * @param amount the amount to set
      */
+    @Override
     public void setAmount(Float amount) {
         this.amount = amount;
     }
@@ -37,6 +39,7 @@ public class Currency {
     /**
      * @return the currency
      */
+    @Override
     public CurrencyUnit getCurrency() {
         return currency;
     }
@@ -44,6 +47,7 @@ public class Currency {
     /**
      * @param currency the currency to set
      */
+    @Override
     public void setCurrency(CurrencyUnit currency) {
         this.currency = currency;
     }

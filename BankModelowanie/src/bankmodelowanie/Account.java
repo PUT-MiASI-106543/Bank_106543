@@ -5,6 +5,7 @@
  */
 package bankmodelowanie;
 
+import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -14,12 +15,12 @@ import java.util.Objects;
  */
 public class Account implements IAccount{
     private Long accountNumber;
-    private Currency money;
+    private ICurrency money;
     private Float interest;
     private OperationValidator validator;
     private OperationsHistory history;
-    private Bank bank;
-    private ArrayList<Customer> customers;
+    private IBank bank;
+    private ArrayList<ICustomer> customers;
     private InterestState state;
 
    
@@ -58,7 +59,13 @@ public class Account implements IAccount{
         return hash;
     }
     
-    public Account(Bank bank, ArrayList<Customer> customer, Long accNumber, Currency money, OperationValidator validator){
+    @Inject
+    public Account(IBank b){
+        this.bank = b;
+        this.history = new OperationsHistory();
+    }
+    
+    /*public Account(Bank bank, ArrayList<ICustomer> customer, Long accNumber, Currency money, OperationValidator validator){
         this.bank = bank;
         this.customers = customer;
         this.accountNumber = accNumber;
@@ -69,7 +76,7 @@ public class Account implements IAccount{
         this.state = new LinearInterest(5.00f);
     }
     
-    public Account(Bank bank, ArrayList<Customer> customer, Long accNumber, Currency money, OperationValidator validator, InterestState state){
+    public Account(Bank bank, ArrayList<ICustomer> customer, Long accNumber, Currency money, OperationValidator validator, InterestState state){
         this.bank = bank;
         this.customers = customer;
         this.accountNumber = accNumber;
@@ -80,17 +87,18 @@ public class Account implements IAccount{
         this.state = state;
     }
 
-    public Account(Bank bank, ArrayList<Customer> customer, Long accNumber, Currency money, OperationValidator validator, Float interest){
+    public Account(Bank bank, ArrayList<ICustomer> customer, Long accNumber, Currency money, OperationValidator validator, Float interest){
         this(bank, customer, accNumber, money, validator);
         this.interest = interest;
-    }
+    }*/
     
     public void calculateIntrest(){
-        Currency interest = state.calculateInterest(this);
+        ICurrency interest = state.calculateInterest(this);
         if (interest != null){
             if (this.money.getCurrency() == CurrencyUnit.PLN){
                 float value = this.money.getAmount();
-                this.money = new Currency(value + interest.getAmount(), CurrencyUnit.PLN);
+                //this.money = new Currency(value + interest.getAmount(), CurrencyUnit.PLN);
+                this.money = BankModelowanie.dInjector.InjectCurrency(value + interest.getAmount(), CurrencyUnit.PLN);
             }
         }
     }
@@ -106,7 +114,7 @@ public class Account implements IAccount{
      * @return the money
      */
     @Override
-    public Currency getMoney() {
+    public ICurrency getMoney() {
         return money;
     }
 
@@ -146,7 +154,7 @@ public class Account implements IAccount{
      * @return the bank
      */
     @Override
-    public Bank getBank() {
+    public IBank getBank() {
         return bank;
     }
 
@@ -154,7 +162,7 @@ public class Account implements IAccount{
      * @return the customer
      */
     @Override
-    public ArrayList<Customer> getCustomer() {
+    public ArrayList<ICustomer> getCustomer() {
         return customers;
     }
 
@@ -164,6 +172,31 @@ public class Account implements IAccount{
     @Override
     public OperationValidator getValidator() {
         return validator;
+    }
+
+    @Override
+    public void setBank(IBank bank) {
+        this.bank = bank;
+    }
+
+    @Override
+    public void setCustomer(ArrayList<ICustomer> customer) {
+        this.customers = customer;
+    }
+
+    @Override
+    public void setMoney(ICurrency money) {
+        this.money = money;
+    }
+
+    @Override
+    public void setOperationValidator(OperationValidator validator) {
+        this.validator = validator;
+    }
+
+    @Override
+    public void setState(InterestState linearInterest) {
+        this.state = linearInterest;
     }
     
 }

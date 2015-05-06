@@ -7,11 +7,11 @@ package bankmodelowanie;
 
 /**
  *
- * @author E330
+ * @author MeloneQ
  */
-public interface InterestState {
-    public ICurrency calculateInterest(Account acc);
+public interface ICurrency {
+    public Float getAmount();
+    public void setAmount(Float amount);
+    public CurrencyUnit getCurrency();
+    public void setCurrency(CurrencyUnit currency);
 }
-
-
-
