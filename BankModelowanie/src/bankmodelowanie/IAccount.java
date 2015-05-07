@@ -20,7 +20,8 @@ public interface IAccount {
         public ArrayList<ICustomer> getCustomer();
         public OperationValidator getValidator();
         public void performOperation(Operation operation, boolean exist);
-
+        public void calculateIntrest();
+        public void Accept(Visitor visitor);
     public void setBank(IBank bank);
 
     public void setCustomer(ArrayList<ICustomer> customer);
@@ -30,4 +31,6 @@ public interface IAccount {
     public void setOperationValidator(OperationValidator validator);
 
     public void setState(InterestState linearInterest);
+
+    public void setAccNumber(Long accNumber);
 }

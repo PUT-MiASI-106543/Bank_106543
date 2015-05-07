@@ -34,6 +34,7 @@ public class OperationsHistoryTest {
     
     @Before
     public void setUp() {
+        BankModelowanie.main();
         this.fixture = new OperationsHistory();
 
     }
@@ -49,20 +50,21 @@ public class OperationsHistoryTest {
     public void testAddOperation() {
         System.out.println("addOperation");
         
-      Customer customer = new Customer("Adam", "Kedzia", "109090321900");
-      ArrayList<Customer> customerArray = new ArrayList<>();
+      ICustomer customer = BankModelowanie.dInjector.InjectCustomer("Adam", "Kedzia", "109090321900");
+      ArrayList<ICustomer> customerArray = new ArrayList<>();
       customerArray.add(customer);
       
-      Bank bank = new Bank(123456);
-      Currency curr = new Currency(1000.0f, CurrencyUnit.PLN);
-      Currency curr2 = new Currency(1000.0f, CurrencyUnit.PLN);
+      IBank bank = BankModelowanie.dInjector.InjectBank(123);
+      ICurrency curr = new Currency(1000.0f, CurrencyUnit.PLN);
+      ICurrency curr2 = new Currency(1000.0f, CurrencyUnit.PLN);
 
       Float interests = 0.5f;
       long accNumber = 1234567890;
       
       OperationValidator validator = new DebitAccountValidator(-1000.f);
       
-      Account acc = new Account(bank, customerArray, accNumber, curr, validator,interests);
+      IAccount acc = BankModelowanie.dInjector.InjectAccount(bank, customerArray, accNumber, curr, validator);
+
         Operation operation1 = new TransferOperation(curr, acc, acc);
         Operation operation2 = new TransferOperation(curr2, acc, acc);
         OperationsHistory instance = fixture;

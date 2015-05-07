@@ -16,17 +16,18 @@ import static org.junit.Assert.*;
  * @author E330
  */
 public class CustomerTest {
-    Customer cust;
-    Account acc;
+    ICustomer cust;
+    IAccount acc;
     public CustomerTest() {
     }
     
     @Before
     public void setUp() {
-        cust = new Customer("Janusz", "Nowak", "93010101234");
-        ArrayList<Customer> list = new ArrayList<>();
+        BankModelowanie.main();
+        cust = BankModelowanie.dInjector.InjectCustomer("Test", "Testowy", "123123123123");
+        ArrayList<ICustomer> list = new ArrayList<>();
         list.add(cust);
-        acc = new Account(new Bank(123456), list, 1234567890l, new Currency(100f, CurrencyUnit.PLN),new DebitAccountValidator(100f)); 
+        acc = BankModelowanie.dInjector.InjectAccount(new Bank(new KIR()), list, 1234567890l, new Currency(100f, CurrencyUnit.PLN),new DebitAccountValidator(100f));
     }
     
     @After
@@ -43,9 +44,9 @@ public class CustomerTest {
         
         Customer cust2 = new Customer("Grzegorz", "Kowalski", "800101012345");      
         
-        ArrayList<Customer> list = new ArrayList<>();
+        ArrayList<ICustomer> list = new ArrayList<>();
         list.add(cust2);
-        Account acc2 = new Account(new Bank(123456), list, 1234567891l, new Currency(100f, CurrencyUnit.PLN),new DebitAccountValidator(0f)); 
+        IAccount acc2 = BankModelowanie.dInjector.InjectAccount(BankModelowanie.dInjector.InjectBank(1), list, Long.MIN_VALUE,new Currency(100f, CurrencyUnit.PLN),new DebitAccountValidator(100f));
         
         Operation op = new TransferOperation(new Currency(30.0f, CurrencyUnit.PLN), acc, acc2);
         cust.doOperation(op, true);

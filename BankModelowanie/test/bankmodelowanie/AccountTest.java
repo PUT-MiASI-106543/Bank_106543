@@ -18,10 +18,10 @@ import static org.junit.Assert.*;
  * @author adam.kedzia
  */
 public class AccountTest {
-    private Account fixture;
-    private Account anotherAccount;
-    private Bank bankA, bankB;
-    private Account accountA, accountB;
+    private IAccount fixture;
+    private IAccount anotherAccount;
+    private IBank bankA, bankB;
+    private IAccount accountA, accountB;
     public AccountTest() {
       
     }
@@ -36,31 +36,28 @@ public class AccountTest {
     
     @Before
     public void setUp() {
+      BankModelowanie.main();
+        
       Customer customer = new Customer("Adam", "Kedzia", "109090321900");
       Customer customerPrim = new Customer("Adam", "Melon", "143390321900");
-      ArrayList<Customer> customerArray = new ArrayList<>();
+      ArrayList<ICustomer> customerArray = new ArrayList<>();
       customerArray.add(customer);
       
-      
-      
-      Bank bank = new Bank(123456);
-      Currency curr = new Currency(1000.0f, CurrencyUnit.PLN);
-      Float interests = 0.5f;
-      long accNumber = 1234567890;
+      this.fixture = BankModelowanie.dInjector.InjectAccount(customerArray, 123456789l);
+      this.anotherAccount = BankModelowanie.dInjector.InjectAccount(customerArray, 123123123l);
       
       OperationValidator validator = new DebitAccountValidator(-1000.f);
       LinearInterest state = new LinearInterest(5.f);
-      this.fixture = new Account(bank, customerArray, accNumber, curr, validator,0.02f);
-      this.anotherAccount =  new Account(bank, customerArray, (long)9328443, new Currency(1000.0f, CurrencyUnit.PLN), validator,0.02f);
-
-      bankA = new Bank(123);
-      bankB = new Bank(456);
       
-      bankA.kir = bankA.kir.getInstance();
-      bankB.kir = bankA.kir.getInstance();
       
-      this.accountA = new Account(bankA, customerArray, (long)4391234, curr, validator, 0.02f);
-      this.accountB = new Account(bankB, customerArray, (long)9328443, new Currency(1000.0f, CurrencyUnit.PLN), validator, 0.02f);
+      bankA = BankModelowanie.dInjector.InjectBank(123);
+      bankB = BankModelowanie.dInjector.InjectBank(456);
+      
+      bankA.setKir(bankA.kir.getInstance());
+      bankB.setKir(bankA.kir.getInstance());
+      
+      this.accountA = BankModelowanie.dInjector.InjectAccount(bankA, customerArray, (long)4391234, new Currency(1000.0f, CurrencyUnit.PLN), validator);
+      this.accountB = BankModelowanie.dInjector.InjectAccount(bankB, customerArray, (long)9328443, new Currency(1000.0f, CurrencyUnit.PLN), validator);
       
       customer.addAccount(accountA);
       customerPrim.addAccount(accountB);
@@ -82,10 +79,10 @@ public class AccountTest {
     @Test
     public void testPerformOperationReceiver() {
         System.out.println("performOperationReceiver");
-        Currency curr = new Currency(1000.0f, CurrencyUnit.PLN);
+        ICurrency curr = new Currency(1000.0f, CurrencyUnit.PLN);
 
         Operation operation = new TransferOperation(curr, anotherAccount, fixture);
-        Account instance = anotherAccount;
+        IAccount instance = anotherAccount;
         instance.performOperation(operation, false);
         assertEquals(2000.f, this.fixture.getMoney().getAmount(), 0.01);
     }
@@ -93,23 +90,12 @@ public class AccountTest {
      @Test
     public void testPerformOperationSender() {
         System.out.println("performOperationReceiver");
-        Currency curr = new Currency(1000.0f, CurrencyUnit.PLN);
+        ICurrency curr = new Currency(1000.0f, CurrencyUnit.PLN);
 
         Operation operation = new TransferOperation(curr, fixture, anotherAccount);
-        Account instance = fixture;
+        IAccount instance = fixture;
         instance.performOperation(operation, false);
         assertEquals(0.f, instance.getMoney().getAmount(), 0.01);
-    }
-
-    /**
-     * Test of evaluateInterest method, of class Account.
-     */
-    @Test
-    public void testEvaluateInterest() {
-        System.out.println("evaluateInterest");
-        Account instance = this.fixture;
-        instance.evaluateInterest();
-        assertEquals(1020.f, instance.getMoney().getAmount(), 0.01);
     }
 
     /**
@@ -119,7 +105,7 @@ public class AccountTest {
     public void testEquals() {
         System.out.println("equals");
         Object ob = anotherAccount;
-        Account instance = fixture;
+        IAccount instance = fixture;
         boolean expResult = false;
         boolean result = instance.equals(ob);
         assertEquals(expResult, result);
@@ -134,29 +120,15 @@ public class AccountTest {
     @Test
     public void testCalculateInterest() {
         System.out.println("calculateInterest");
-        Account instance = this.fixture;
+        IAccount instance = BankModelowanie.dInjector.InjectAccount(BankModelowanie.dInjector.InjectBank(1), new ArrayList<>(), (long)123, BankModelowanie.dInjector.InjectCurrency(3000.0f, CurrencyUnit.PLN), new DebitAccountValidator(-1000.f), new IntervalInterest());
         instance.calculateIntrest();
         assertEquals(1050.f, instance.getMoney().getAmount(), 0.01);
     }
     
-     /**
-     * Test of calculateInterest method, of class Account.
-     *
-    @Test
-    public void testCalculateInterestChange() {
-        System.out.println("calculateInterest");
-        Account instance = this.fixture;
-        LinearInterest newState = new LinearInterest(0.f);
-        ChangeInterestsOperation operation = new ChangeInterestsOperation(newState);
-        instance.performOperation(operation);
-        instance.calculateIntrest();
-        assertEquals(1000.f, instance.getMoney().getAmount(), 0.01);
-    }*/
-
     @Test
     public void testVisitator() {
         Visitor visitor = new TextVisitor();
-        Account instance = this.fixture;
+        IAccount instance = this.fixture;
       
         Currency curr = new Currency(1000.0f, CurrencyUnit.PLN);
 
@@ -195,7 +167,7 @@ public class AccountTest {
     @Test
     public void testMediator()
     {
-        bankA.kir.addBank(bankA);
+        bankA.getKir().addBank(bankA);
         bankA.kir.addBank(bankB);
         Operation operation = new TransferOperation(new Currency(500.0f, CurrencyUnit.PLN), accountA, accountB);
         
@@ -212,7 +184,7 @@ public class AccountTest {
     @Test
     public void testChainOfResponsibility()
     {
-        Account instance = this.fixture;
+        IAccount instance = this.fixture;
         instance.getMoney().setAmount(200000.0f);
         
         Operation operation = new TransferOperation(new Currency(25000.0f, CurrencyUnit.PLN), fixture, anotherAccount);

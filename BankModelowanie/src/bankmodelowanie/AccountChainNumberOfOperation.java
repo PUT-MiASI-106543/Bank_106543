@@ -12,11 +12,11 @@ import java.util.HashMap;
  * @author Melon
  */
 public class AccountChainNumberOfOperation extends AccountChain{
-    Account acc;
+    IAccount acc;
     TransferOperation top;
     HashMap<Account, Integer> transfers;
     AccountChain next;
-    public AccountChainNumberOfOperation(Account acc, TransferOperation top) {
+    public AccountChainNumberOfOperation(IAccount acc, TransferOperation top) {
         super(acc, top);
         this.acc = acc;
         this.top = top;

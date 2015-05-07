@@ -33,7 +33,7 @@ public class Customer implements ICustomer{
     @Override
     public boolean doOperation(Operation operation, boolean exist){
         if(getAccounts().contains(((TransferOperation)operation).getReciver())){
-            Account acc = ((TransferOperation)operation).getReciver();
+            IAccount acc = ((TransferOperation)operation).getReciver();
             acc.performOperation(operation, exist);
             return true;
         }

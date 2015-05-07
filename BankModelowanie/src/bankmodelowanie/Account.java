@@ -198,6 +198,11 @@ public class Account implements IAccount{
     public void setState(InterestState linearInterest) {
         this.state = linearInterest;
     }
+
+    @Override
+    public void setAccNumber(Long accNumber) {
+        this.accountNumber = accNumber;
+    }
     
 }
 

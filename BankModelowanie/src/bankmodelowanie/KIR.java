@@ -19,15 +19,15 @@ public class KIR implements IKir {
    
    private static KIR instance = null;
    private HashMap<Integer, ArrayList<TransferOperation>> transfersToSend;
-   private List<Bank> banks;
+   private List<IBank> banks;
    
    protected KIR() {
-      banks = new ArrayList<Bank>();
+      banks = new ArrayList<IBank>();
    }
    
 
    
-   public void addBank(Bank bank)
+   public void addBank(IBank bank)
    {
        if(!banks.contains(bank)) banks.add(bank);
    }
@@ -53,7 +53,7 @@ public class KIR implements IKir {
        //call KiR api, triggered by sheduler
        for(int id: transfersToSend.keySet())
        {
-           for(Bank bank: banks)
+           for(IBank bank: banks)
            {
                for(TransferOperation top: transfersToSend.get(id))
                {

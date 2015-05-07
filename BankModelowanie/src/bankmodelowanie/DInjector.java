@@ -31,6 +31,17 @@ public class DInjector {
         return customer;
     }
     
+    public IAccount InjectAccount(ArrayList<ICustomer> customers, Long accNumber){
+        IAccount account = injector.getInstance(IAccount.class);
+        
+        account.setMoney(InjectCurrency(0f, CurrencyUnit.PLN));
+        account.setState(new LinearInterest(5.00f));
+        account.setCustomer(customers);
+        account.setAccNumber(accNumber);
+        
+        return account;
+    }
+    
     public IAccount InjectAccount(IBank bank, ArrayList<ICustomer> customer, Long accNumber, ICurrency money, OperationValidator validator){
         IAccount account = injector.getInstance(IAccount.class);
         
@@ -43,7 +54,7 @@ public class DInjector {
         return account;
     }
     
-    public IAccount InjectAccount(Bank bank, ArrayList<ICustomer> customer, Long accNumber, Currency money, OperationValidator validator, InterestState state){
+    public IAccount InjectAccount(IBank bank, ArrayList<ICustomer> customer, Long accNumber, ICurrency money, OperationValidator validator, InterestState state){
         IAccount account = injector.getInstance(IAccount.class);
         
         account.setBank(bank);

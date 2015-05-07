@@ -34,6 +34,10 @@ public class Bank implements IBank{
         this.kir = kir;
     }
     
+    public void setKir(KIR kir){
+        this.kir = kir;
+    }
+    
     @Override
     public void transferFromKir(TransferOperation top) {
         for(ICustomer c: customers)
@@ -90,6 +94,11 @@ public class Bank implements IBank{
     @Override
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public IKir getKir() {
+       return this.kir;
     }
 
 

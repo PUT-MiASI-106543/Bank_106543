@@ -13,13 +13,13 @@ import java.util.Date;
  */
 public class TransferOperation extends Operation{
     private ICurrency money;
-    private Account sender;
-    private Account receiver;
+    private IAccount sender;
+    private IAccount receiver;
 
     
     
     
-   public TransferOperation(ICurrency money, Account sender, Account receiver){
+   public TransferOperation(ICurrency money, IAccount sender, IAccount receiver){
        this.date = new Date();
        this.accepted = null;
        this.money = money;
@@ -36,14 +36,14 @@ public class TransferOperation extends Operation{
     /**
      * @return the sender
      */
-    public Account getSender() {
+    public IAccount getSender() {
         return sender;
     }
 
     /**
      * @return the receiver
      */
-    public Account getReciver() {
+    public IAccount getReciver() {
         return receiver;
     }
     

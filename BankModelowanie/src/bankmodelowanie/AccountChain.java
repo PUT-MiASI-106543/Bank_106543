@@ -12,10 +12,10 @@ import java.util.List;
  * @author Melon
  */
 public class AccountChain {
-    Account acc;
+    IAccount acc;
     TransferOperation top;
     AccountChain next;
-    public AccountChain(Account acc, TransferOperation top){
+    public AccountChain(IAccount acc, TransferOperation top){
         this.acc = acc;
         this.top = top;
         this.next = new AccountChainAmmount(acc, top);
