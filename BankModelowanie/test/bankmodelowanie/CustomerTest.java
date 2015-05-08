@@ -23,7 +23,7 @@ public class CustomerTest {
     
     @Before
     public void setUp() {
-        BankModelowanie.main();
+        BankModelowanie.main(new String[]{});
         cust = BankModelowanie.dInjector.InjectCustomer("Test", "Testowy", "123123123123");
         ArrayList<ICustomer> list = new ArrayList<>();
         list.add(cust);

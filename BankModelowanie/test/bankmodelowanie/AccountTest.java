@@ -36,19 +36,18 @@ public class AccountTest {
     
     @Before
     public void setUp() {
-      BankModelowanie.main();
+      BankModelowanie.main(new String[]{});
         
       Customer customer = new Customer("Adam", "Kedzia", "109090321900");
       Customer customerPrim = new Customer("Adam", "Melon", "143390321900");
       ArrayList<ICustomer> customerArray = new ArrayList<>();
       customerArray.add(customer);
       
-      this.fixture = BankModelowanie.dInjector.InjectAccount(customerArray, 123456789l);
-      this.anotherAccount = BankModelowanie.dInjector.InjectAccount(customerArray, 123123123l);
-      
       OperationValidator validator = new DebitAccountValidator(-1000.f);
       LinearInterest state = new LinearInterest(5.f);
       
+      this.fixture = BankModelowanie.dInjector.InjectAccount(customerArray, 123456789l, validator);
+      this.anotherAccount = BankModelowanie.dInjector.InjectAccount(customerArray, 123123123l, validator);
       
       bankA = BankModelowanie.dInjector.InjectBank(123);
       bankB = BankModelowanie.dInjector.InjectBank(456);
@@ -79,7 +78,7 @@ public class AccountTest {
     @Test
     public void testPerformOperationReceiver() {
         System.out.println("performOperationReceiver");
-        ICurrency curr = new Currency(1000.0f, CurrencyUnit.PLN);
+        ICurrency curr = BankModelowanie.dInjector.InjectCurrency(1000.0f, CurrencyUnit.PLN);
 
         Operation operation = new TransferOperation(curr, anotherAccount, fixture);
         IAccount instance = anotherAccount;

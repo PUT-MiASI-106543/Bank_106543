@@ -34,7 +34,7 @@ public class OperationsHistoryTest {
     
     @Before
     public void setUp() {
-        BankModelowanie.main();
+        BankModelowanie.main(new String[]{});
         this.fixture = new OperationsHistory();
 
     }

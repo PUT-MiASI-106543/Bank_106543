@@ -18,7 +18,7 @@ public class BankModelowanie {
     /**
      * @param args the command line arguments
      */
-    public static void main() {
+    public static void main(String[] args) {
        dInjector = new DInjector();
     }
      

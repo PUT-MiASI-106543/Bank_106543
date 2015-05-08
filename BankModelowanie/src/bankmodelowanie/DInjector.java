@@ -8,6 +8,7 @@ package bankmodelowanie;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import java.util.ArrayList;
+import com.google.inject.AbstractModule;
 
 /**
  *
@@ -31,13 +32,16 @@ public class DInjector {
         return customer;
     }
     
-    public IAccount InjectAccount(ArrayList<ICustomer> customers, Long accNumber){
+    public IAccount InjectAccount(ArrayList<ICustomer> customers, Long accNumber, OperationValidator validator){
         IAccount account = injector.getInstance(IAccount.class);
+        IBank bank = this.InjectBank(123);
         
-        account.setMoney(InjectCurrency(0f, CurrencyUnit.PLN));
+        account.setBank(bank);
+        account.setMoney(InjectCurrency(1000f, CurrencyUnit.PLN));
         account.setState(new LinearInterest(5.00f));
         account.setCustomer(customers);
         account.setAccNumber(accNumber);
+        account.setOperationValidator(validator);
         
         return account;
     }
@@ -72,13 +76,12 @@ public class DInjector {
         return bank;
     }
     
-    public ICurrency InjectCurrency(Float ammount, CurrencyUnit curr){
-        ICurrency currency = injector.getInstance(ICurrency.class);
-        
-        currency.setAmount(ammount);
-        currency.setCurrency(curr);
-        
-        return currency;
-    }
     
+    public ICurrency InjectCurrency(Float amount, CurrencyUnit currency){
+        //ICurrency cur = injector.getInstance(ICurrency.class);
+        //cur.setAmount(amount);
+        //cur.setCurrency(currency);
+        ICurrency cur = new Currency(amount, currency);
+        return cur;
+    }
 }
