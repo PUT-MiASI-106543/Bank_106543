@@ -30,7 +30,6 @@ public class AccountCredit implements IAccOption {
                 TransferOperation transfer = (TransferOperation) operation;
                 if(this.equals(transfer.getSender()))
                 {
-                    // Send to KIR
                 }
                 if(transfer.getSender().equals(acc))
                 {

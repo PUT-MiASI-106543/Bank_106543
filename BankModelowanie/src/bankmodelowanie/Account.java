@@ -66,7 +66,6 @@ public class Account implements IAccount{
         if (interest != null){
             if (this.money.getCurrency() == CurrencyUnit.PLN){
                 float value = this.money.getAmount();
-                //this.money = new Currency(value + interest.getAmount(), CurrencyUnit.PLN);
                 this.money = BankModelowanie.dInjector.InjectCurrency(value + interest.getAmount(), CurrencyUnit.PLN);
             }
         }
