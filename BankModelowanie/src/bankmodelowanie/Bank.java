@@ -12,10 +12,10 @@ public class Bank implements IBank{
     private Integer id;
     private List<ICustomer> customers;
     private List<Product> products;
-    private IKir kir;
+    private IKIR kir;
 
     @Inject
-    public Bank(IKir kir){
+    public Bank(IKIR kir){
         this.customers = new ArrayList<>();
         this.products = new ArrayList<>();
         this.kir = kir;
@@ -80,7 +80,7 @@ public class Bank implements IBank{
     }
 
     @Override
-    public IKir getKir() {
+    public IKIR getKir() {
        return this.kir;
     }
 

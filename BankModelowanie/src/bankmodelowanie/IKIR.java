@@ -4,7 +4,7 @@ package bankmodelowanie;
  *
  * @author MeloneQ
  */
-public interface IKir {
+public interface IKIR {
     public void putTransferInQueue(TransferOperation operation);
     public void receiveTransfers();
     public void sendTransfers();

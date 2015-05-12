@@ -15,6 +15,6 @@ public interface IBank {
     public ICurrency conversion(ICurrency currency, CurrencyUnit currencyUnit, float rate, float spread);
     public Integer getId();
     public void setKir(KIR kir);
-    public IKir getKir();
+    public IKIR getKir();
     public void setId(int id);
 }

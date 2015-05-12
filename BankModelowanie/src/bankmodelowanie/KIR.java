@@ -9,7 +9,7 @@ import java.util.Objects;
  *
  * @author adam.kedzia
  */
-public class KIR implements IKir {
+public class KIR implements IKIR {
    
    private static KIR instance = null;
    private HashMap<Integer, ArrayList<TransferOperation>> transfersToSend;
