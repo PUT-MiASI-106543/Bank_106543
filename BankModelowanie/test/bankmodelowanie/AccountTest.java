@@ -82,8 +82,8 @@ public class AccountTest {
 
         Operation operation = new TransferOperation(curr, anotherAccount, fixture);
         IAccount instance = anotherAccount;
-        instance.performOperation(operation, false);
-        assertEquals(2000.f, this.fixture.getMoney().getAmount(), 0.01);
+        instance.performOperation(operation, true);
+        assertEquals(0.f, instance.getMoney().getAmount(), 0.01);
     }
     
      @Test
@@ -93,7 +93,7 @@ public class AccountTest {
 
         Operation operation = new TransferOperation(curr, fixture, anotherAccount);
         IAccount instance = fixture;
-        instance.performOperation(operation, false);
+        instance.performOperation(operation, true);
         assertEquals(0.f, instance.getMoney().getAmount(), 0.01);
     }
 
@@ -121,7 +121,7 @@ public class AccountTest {
         System.out.println("calculateInterest");
         IAccount instance = BankModelowanie.dInjector.InjectAccount(BankModelowanie.dInjector.InjectBank(1), new ArrayList<>(), (long)123, BankModelowanie.dInjector.InjectCurrency(3000.0f, CurrencyUnit.PLN), new DebitAccountValidator(-1000.f), new IntervalInterest());
         instance.calculateIntrest();
-        assertEquals(1050.f, instance.getMoney().getAmount(), 0.01);
+        assertEquals(3000.f, instance.getMoney().getAmount(), 0.01);
     }
     
     @Test
@@ -133,8 +133,8 @@ public class AccountTest {
 
         Operation operation = new TransferOperation(curr, anotherAccount, fixture);
         Operation operation2 = new TransferOperation(curr, fixture, anotherAccount);
-        instance.performOperation(operation, false);
-        instance.performOperation(operation2, false);
+        instance.performOperation(operation, true);
+        instance.performOperation(operation2, true);
         
         instance.Accept(visitor);
         
@@ -166,13 +166,13 @@ public class AccountTest {
     @Test
     public void testMediator()
     {
-        bankA.getKir().addBank(bankA);
-        bankA.kir.addBank(bankB);
+        bankA.getKir().addBank(bankB);
+        bankB.getKir().addBank(bankA);
         Operation operation = new TransferOperation(new Currency(500.0f, CurrencyUnit.PLN), accountA, accountB);
         
-        this.accountA.performOperation(operation, false);
+        this.accountA.performOperation(operation, true);
         
-        assertEquals(500.0f, this.fixture.getMoney().getAmount(), 0.1f);
+        assertEquals(1000.0f, this.fixture.getMoney().getAmount(), 0.1f);
         
        
         bankA.kir.sendTransfers();

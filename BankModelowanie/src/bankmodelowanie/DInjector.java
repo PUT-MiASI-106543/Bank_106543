@@ -73,6 +73,7 @@ public class DInjector {
     public IBank InjectBank(int id){
         IBank bank = injector.getInstance(IBank.class);
         bank.setId(id);
+        bank.setKir(KIR.getInstance());
         return bank;
     }
     
