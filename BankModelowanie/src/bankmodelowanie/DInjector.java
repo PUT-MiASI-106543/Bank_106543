@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bankmodelowanie;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import java.util.ArrayList;
-import com.google.inject.AbstractModule;
 
 /**
  *
@@ -79,9 +73,6 @@ public class DInjector {
     
     
     public ICurrency InjectCurrency(Float amount, CurrencyUnit currency){
-        //ICurrency cur = injector.getInstance(ICurrency.class);
-        //cur.setAmount(amount);
-        //cur.setCurrency(currency);
         ICurrency cur = new Currency(amount, currency);
         return cur;
     }

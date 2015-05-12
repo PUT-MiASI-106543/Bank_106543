@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bankmodelowanie;
 
 /**
@@ -18,7 +13,7 @@ public class CreditCard {
     public CreditCard(Customer customer, Account accounts, double rate)
     {
         this.customer = customer;
-        this.account = account;
+        this.account = accounts;
         this.rate = rate;
         this.cardNumber = this.hashCode();
     }

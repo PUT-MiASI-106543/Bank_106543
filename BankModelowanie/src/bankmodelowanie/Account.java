@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bankmodelowanie;
 
 import com.google.inject.Inject;
@@ -18,7 +13,7 @@ public class Account implements IAccount{
     private ICurrency money;
     private Float interest;
     private OperationValidator validator;
-    private OperationsHistory history;
+    final private OperationsHistory history;
     private IBank bank;
     private ArrayList<ICustomer> customers;
     private InterestState state;
@@ -37,7 +32,7 @@ public class Account implements IAccount{
                 }else{
                     getMoney().setAmount(getMoney().getAmount() + transfer.getMoney().getAmount());
                 }
-                if(!exist) bank.kir.sheduleTransferOperation(transfer);
+                if(!exist) bank.getKir().sheduleTransferOperation(transfer);
             }
         }
     }
@@ -65,35 +60,9 @@ public class Account implements IAccount{
         this.history = new OperationsHistory();
     }
     
-    /*public Account(Bank bank, ArrayList<ICustomer> customer, Long accNumber, Currency money, OperationValidator validator){
-        this.bank = bank;
-        this.customers = customer;
-        this.accountNumber = accNumber;
-        this.money = money;
-        this.validator = validator;
-        this.history = new OperationsHistory();
-        this.interest = 0.f;
-        this.state = new LinearInterest(5.00f);
-    }
-    
-    public Account(Bank bank, ArrayList<ICustomer> customer, Long accNumber, Currency money, OperationValidator validator, InterestState state){
-        this.bank = bank;
-        this.customers = customer;
-        this.accountNumber = accNumber;
-        this.money = money;
-        this.validator = validator;
-        this.history = new OperationsHistory();
-        this.interest = 0.f;
-        this.state = state;
-    }
-
-    public Account(Bank bank, ArrayList<ICustomer> customer, Long accNumber, Currency money, OperationValidator validator, Float interest){
-        this(bank, customer, accNumber, money, validator);
-        this.interest = interest;
-    }*/
-    
+    @Override
     public void calculateIntrest(){
-        ICurrency interest = state.calculateInterest(this);
+        final ICurrency interest = state.calculateInterest(this);
         if (interest != null){
             if (this.money.getCurrency() == CurrencyUnit.PLN){
                 float value = this.money.getAmount();
@@ -103,6 +72,7 @@ public class Account implements IAccount{
         }
     }
     
+    @Override
     public void Accept(Visitor visitor)
     {
         for(Operation op : history.getHistory())

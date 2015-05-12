@@ -10,9 +10,9 @@ package bankmodelowanie;
  * @author Melon
  */
 public class AccountChainAmmount extends AccountChain{
-    AccountChain next;
-    IAccount acc;
-    TransferOperation top;
+    private AccountChain next;
+    private IAccount acc;
+    private TransferOperation top;
 
     public AccountChainAmmount(IAccount acc, TransferOperation top)
     {

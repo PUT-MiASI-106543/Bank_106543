@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bankmodelowanie;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,11 +16,12 @@ public class KIR implements IKir {
    private List<IBank> banks;
    
    protected KIR() {
-      banks = new ArrayList<IBank>();
+      banks = new ArrayList<>();
    }
    
 
    
+   @Override
    public void addBank(IBank bank)
    {
        if(!banks.contains(bank)) banks.add(bank);
@@ -35,11 +30,12 @@ public class KIR implements IKir {
    public static KIR getInstance() {
       if(instance == null) {
          instance = new KIR();
-         instance.transfersToSend = new HashMap<Integer, ArrayList<TransferOperation>>();
+         instance.transfersToSend = new HashMap<>();
       }
       return instance;
    }
    
+   @Override
    public void sheduleTransferOperation(TransferOperation transfer){
        if (Objects.equals(transfer.getReciver().getBank().getId(), transfer.getSender().getBank().getId())) {
            transfer.getReciver().performOperation(transfer, true);
@@ -49,6 +45,7 @@ public class KIR implements IKir {
        
    }
    
+   @Override
    public void sendTransfers(){
        //call KiR api, triggered by sheduler
        for(int id: transfersToSend.keySet())
@@ -62,9 +59,10 @@ public class KIR implements IKir {
                }
            }
        }
-       this.transfersToSend = new HashMap<Integer, ArrayList<TransferOperation>>();
+       this.transfersToSend = new HashMap<>();
    }
   
+   @Override
    public void receiveTransfers(){
         ArrayList<TransferOperation> receivedArray = new ArrayList<>();
        //Api call to KIR
@@ -72,6 +70,7 @@ public class KIR implements IKir {
            operation.getReciver().performOperation(operation, true);
        }
    }
+   @Override
    public void putTransferInQueue(TransferOperation operation){
        if (transfersToSend.containsKey(operation.getReciver().getBank().getId())) {
            transfersToSend.get(operation.getReciver().getBank().getId()).add(operation);

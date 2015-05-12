@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 
 public class AccountCredit implements IAccOption {
-    IAccount acc;
-    ICurrency debit;
-    float fullDebit;
+    private IAccount acc;
+    private ICurrency debit;
+    private float fullDebit;
     AccountCredit(IAccount acc, ICurrency debit)
     {
         this.acc = acc;
