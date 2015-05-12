@@ -22,15 +22,10 @@ public interface IAccount {
         public void performOperation(Operation operation, boolean exist);
         public void calculateIntrest();
         public void Accept(Visitor visitor);
-    public void setBank(IBank bank);
-
-    public void setCustomer(ArrayList<ICustomer> customer);
-
-    public void setMoney(ICurrency money);
-
-    public void setOperationValidator(OperationValidator validator);
-
-    public void setState(InterestState linearInterest);
-
-    public void setAccNumber(Long accNumber);
+        public void setBank(IBank bank);
+        public void setCustomer(ArrayList<ICustomer> customer);
+        public void setMoney(ICurrency money);
+        public void setOperationValidator(OperationValidator validator);
+        public void setState(InterestState linearInterest);
+        public void setAccNumber(Long accNumber);
 }

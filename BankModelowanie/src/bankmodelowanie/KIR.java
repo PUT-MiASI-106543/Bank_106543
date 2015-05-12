@@ -47,7 +47,6 @@ public class KIR implements IKIR {
    
    @Override
    public void sendTransfers(){
-       //call KiR api, triggered by sheduler
        for(int id: transfersToSend.keySet())
        {
            for(IBank bank: banks)
@@ -65,7 +64,6 @@ public class KIR implements IKIR {
    @Override
    public void receiveTransfers(){
         ArrayList<TransferOperation> receivedArray = new ArrayList<>();
-       //Api call to KIR
        for (TransferOperation operation : receivedArray) {
            operation.getReciver().performOperation(operation, true);
        }

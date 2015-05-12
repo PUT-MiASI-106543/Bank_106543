@@ -25,7 +25,6 @@ public class AccountChainAmmount extends AccountChain{
     @Override
     public boolean operation(){
         if(top.getMoney().getAmount() > 20000.0f){
-            //zgloszenie do US
             return false;
         }
         return next.operation();
