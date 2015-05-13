@@ -3,6 +3,7 @@ package bankmodelowanie;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Objects;
 public class KIR implements IKIR {
    
    private static KIR instance = null;
-   private HashMap<Integer, ArrayList<TransferOperation>> transfersToSend;
+   private Map<Integer, List<TransferOperation>> transfersToSend;
    private List<IBank> banks;
    
    protected KIR() {
@@ -24,7 +25,8 @@ public class KIR implements IKIR {
    @Override
    public void addBank(IBank bank)
    {
-       if(!banks.contains(bank)) banks.add(bank);
+       if(!banks.contains(bank)) 
+           banks.add(bank);
    }
    
    public static KIR getInstance() {
@@ -63,7 +65,7 @@ public class KIR implements IKIR {
   
    @Override
    public void receiveTransfers(){
-        ArrayList<TransferOperation> receivedArray = new ArrayList<>();
+        List<TransferOperation> receivedArray = new ArrayList<>();
        for (TransferOperation operation : receivedArray) {
            operation.getReciver().performOperation(operation, true);
        }
@@ -73,7 +75,7 @@ public class KIR implements IKIR {
        if (transfersToSend.containsKey(operation.getReciver().getBank().getId())) {
            transfersToSend.get(operation.getReciver().getBank().getId()).add(operation);
        }else {
-           ArrayList<TransferOperation> array = new ArrayList<>();
+           List<TransferOperation> array = new ArrayList<>();
            array.add(operation);
            transfersToSend.put(operation.getReciver().getBank().getId(), array);
        }

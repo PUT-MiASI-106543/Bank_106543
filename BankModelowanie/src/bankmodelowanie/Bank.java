@@ -36,8 +36,8 @@ public class Bank implements IBank{
     }
     
     @Override
-    public ICustomer getCustomerByPESEL(String PESEL){
-        return customers.get(customers.indexOf(new Customer(null, null, PESEL)));
+    public ICustomer getCustomerByPESEL(String pesel){
+        return customers.get(customers.indexOf(new Customer(null, null, pesel)));
     }
     
     @Override
@@ -62,7 +62,7 @@ public class Bank implements IBank{
     
     @Override
     public ICurrency conversion(ICurrency currency, CurrencyUnit currencyUnit, float rate, float spread){
-        return BankModelowanie.dInjector.InjectCurrency(currency.getAmount() * rate * (1.0f - spread), currencyUnit);
+        return BankModelowanie.getInjector().injectCurrency(currency.getAmount() * rate * (1.0f - spread), currencyUnit);
     }
     
     

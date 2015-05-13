@@ -24,10 +24,10 @@ public class CustomerTest {
     @Before
     public void setUp() {
         BankModelowanie.main(new String[]{});
-        cust = BankModelowanie.dInjector.InjectCustomer("Test", "Testowy", "123123123123");
+        cust = BankModelowanie.getInjector().injectCustomer("Test", "Testowy", "123123123123");
         ArrayList<ICustomer> list = new ArrayList<>();
         list.add(cust);
-        acc = BankModelowanie.dInjector.InjectAccount(new Bank(new KIR()), list, 1234567890l, new Currency(100f, CurrencyUnit.PLN),new DebitAccountValidator(100f));
+        acc = BankModelowanie.getInjector().injectAccount(new Bank(new KIR()), list, 1234567890l, new Currency(100f, CurrencyUnit.PLN),new DebitAccountValidator(100f));
     }
     
     @After
@@ -46,7 +46,7 @@ public class CustomerTest {
         
         ArrayList<ICustomer> list = new ArrayList<>();
         list.add(cust2);
-        IAccount acc2 = BankModelowanie.dInjector.InjectAccount(BankModelowanie.dInjector.InjectBank(1), list, Long.MIN_VALUE,new Currency(100f, CurrencyUnit.PLN),new DebitAccountValidator(100f));
+        IAccount acc2 = BankModelowanie.getInjector().injectAccount(BankModelowanie.getInjector().injectBank(1), list, Long.MIN_VALUE,new Currency(100f, CurrencyUnit.PLN),new DebitAccountValidator(100f));
         
         Operation op = new TransferOperation(new Currency(30.0f, CurrencyUnit.PLN), acc, acc2);
         cust.doOperation(op, true);

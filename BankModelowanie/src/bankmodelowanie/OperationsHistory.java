@@ -1,13 +1,14 @@
 package bankmodelowanie;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author adam.kedzia
  */
 public class OperationsHistory {
-    private ArrayList<Operation> history;
+    private List<Operation> history;
     
     
     public OperationsHistory(){
@@ -16,12 +17,12 @@ public class OperationsHistory {
     
     void addOperation(Operation operation){
         this.getHistory().add(operation);
-    };
+    }
 
     /**
      * @return the history
      */
-    public ArrayList<Operation> getHistory() {
+    public List<Operation> getHistory() {
         return history;
     }
 }

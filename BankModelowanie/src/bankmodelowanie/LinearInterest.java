@@ -12,6 +12,6 @@ public class LinearInterest implements InterestState{
     
     @Override
     public ICurrency calculateInterest(Account acc){
-        return BankModelowanie.dInjector.InjectCurrency(acc.getMoney().getAmount() * percent * 0.01f, acc.getMoney().getCurrency());
+        return BankModelowanie.getInjector().injectCurrency(acc.getMoney().getAmount() * percent * 0.01f, acc.getMoney().getCurrency());
     }
 }

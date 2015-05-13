@@ -5,12 +5,10 @@
  */
 package bankmodelowanie;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author Melon
  */
 interface Visitor {
-    public void TransferOperationVisitor(Operation history);
+    public void transferOperationVisitor(Operation history);
 }

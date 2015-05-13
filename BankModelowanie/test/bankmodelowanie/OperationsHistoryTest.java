@@ -50,11 +50,11 @@ public class OperationsHistoryTest {
     public void testAddOperation() {
         System.out.println("addOperation");
         
-      ICustomer customer = BankModelowanie.dInjector.InjectCustomer("Adam", "Kedzia", "109090321900");
+      ICustomer customer = BankModelowanie.getInjector().injectCustomer("Adam", "Kedzia", "109090321900");
       ArrayList<ICustomer> customerArray = new ArrayList<>();
       customerArray.add(customer);
       
-      IBank bank = BankModelowanie.dInjector.InjectBank(123);
+      IBank bank = BankModelowanie.getInjector().injectBank(123);
       ICurrency curr = new Currency(1000.0f, CurrencyUnit.PLN);
       ICurrency curr2 = new Currency(1000.0f, CurrencyUnit.PLN);
 
@@ -63,7 +63,7 @@ public class OperationsHistoryTest {
       
       OperationValidator validator = new DebitAccountValidator(-1000.f);
       
-      IAccount acc = BankModelowanie.dInjector.InjectAccount(bank, customerArray, accNumber, curr, validator);
+      IAccount acc = BankModelowanie.getInjector().injectAccount(bank, customerArray, accNumber, curr, validator);
 
         Operation operation1 = new TransferOperation(curr, acc, acc);
         Operation operation2 = new TransferOperation(curr2, acc, acc);

@@ -5,7 +5,7 @@
  */
 package bankmodelowanie;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 public class AccountCredit implements IAccOption {
@@ -28,9 +28,6 @@ public class AccountCredit implements IAccOption {
     public void performOperation(Operation operation, boolean exist) {
         if(operation.getClass().equals(TransferOperation.class)){
                 TransferOperation transfer = (TransferOperation) operation;
-                if(this.equals(transfer.getSender()))
-                {
-                }
                 if(transfer.getSender().equals(acc))
                 {
                     if(transfer.getMoney().getAmount() > acc.getMoney().getAmount()
@@ -49,20 +46,16 @@ public class AccountCredit implements IAccOption {
                 else if(transfer.getReciver().equals(acc))
                 {
                     float difference = fullDebit - debit.getAmount();
-                    if(difference > 0)
+                    if(difference > 0 && difference < transfer.getMoney().getAmount())
                     {
-                        if(difference < transfer.getMoney().getAmount())
-                        {
-                            debit.setAmount(fullDebit);
-                            acc.getMoney().setAmount(acc.getMoney().getAmount() + (transfer.getMoney().getAmount() - difference));
-                            acc.getHistory().addOperation(operation);
-                        }
-                        else
-                        {
-                            debit.setAmount(debit.getAmount()+transfer.getMoney().getAmount());
-                            acc.getHistory().addOperation(operation);
-                        }
-                            
+                        debit.setAmount(fullDebit);
+                        acc.getMoney().setAmount(acc.getMoney().getAmount() + (transfer.getMoney().getAmount() - difference));
+                        acc.getHistory().addOperation(operation);
+                    }
+                    else if(difference >= transfer.getMoney().getAmount())
+                    {
+                        debit.setAmount(debit.getAmount()+transfer.getMoney().getAmount());
+                        acc.getHistory().addOperation(operation);
                     }   
                     else
                     {
@@ -104,7 +97,7 @@ public class AccountCredit implements IAccOption {
     }
 
     @Override
-    public ArrayList<ICustomer> getCustomer() {
+    public List<ICustomer> getCustomer() {
         return acc.getCustomer();
     }
 
@@ -115,35 +108,42 @@ public class AccountCredit implements IAccOption {
 
     @Override
     public void setBank(IBank bank) {
+         acc.setBank(bank);
     }
 
     @Override
-    public void setCustomer(ArrayList<ICustomer> customer) {
+    public void setCustomer(List<ICustomer> customer) {
+        acc.setCustomer(customer);
     }
 
     @Override
     public void setMoney(ICurrency money) {
+        acc.setMoney(money);
     }
 
     @Override
     public void setOperationValidator(OperationValidator validator) {
+        acc.setOperationValidator(validator);
     }
 
     @Override
     public void setState(InterestState linearInterest) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        acc.setState(linearInterest);
     }
 
     @Override
     public void setAccNumber(Long accNumber) {
+        acc.setAccNumber(accNumber);
     }
 
     @Override
     public void calculateIntrest() {
+        acc.calculateIntrest();
     }
 
     @Override
-    public void Accept(Visitor visitor) {
+    public void accept(Visitor visitor) {
+        acc.accept(visitor);
      }
     
 }

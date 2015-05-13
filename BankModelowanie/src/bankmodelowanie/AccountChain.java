@@ -14,7 +14,7 @@ public class AccountChain {
         this.next = new AccountChainAmmount(acc, top);
     }
     public boolean operation(){
-        return new AccountChainAmmount(acc, top).operation();
+        return next.operation();
     }
     public void setNext(AccountChain ac){
         this.next = ac;

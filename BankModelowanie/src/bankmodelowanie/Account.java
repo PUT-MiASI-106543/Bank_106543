@@ -1,7 +1,7 @@
 package bankmodelowanie;
 
 import com.google.inject.Inject;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -13,27 +13,32 @@ public class Account implements IAccount{
     private ICurrency money;
     private Float interest;
     private OperationValidator validator;
-    final private OperationsHistory history;
+    private final OperationsHistory history;
     private IBank bank;
-    private ArrayList<ICustomer> customers;
+    private List<ICustomer> customers;
     private InterestState state;
 
+    @Inject
+    public Account(IBank b){
+        this.bank = b;
+        this.history = new OperationsHistory();
+    }
    
    
     @Override
     public void performOperation(Operation operation, boolean exist){
-        if (this.getValidator().validateOperation(operation) || exist) {
-            if (operation.getClass().equals(TransferOperation.class)) {
-                TransferOperation transfer = (TransferOperation) operation;
-                history.addOperation(operation);
-                if (this.equals(transfer.getSender())) {
-                    getMoney().setAmount(getMoney().getAmount() - transfer.getMoney().getAmount());
-                    // Send to KIR
-                }else{
-                    getMoney().setAmount(getMoney().getAmount() + transfer.getMoney().getAmount());
-                }
-                if(!exist) bank.getKir().sheduleTransferOperation(transfer);
+        if ((this.getValidator().validateOperation(operation) || exist)
+                && operation.getClass().equals(TransferOperation.class)) {
+            TransferOperation transfer = (TransferOperation) operation;
+            history.addOperation(operation);
+            if (this.equals(transfer.getSender())) {
+                getMoney().setAmount(getMoney().getAmount() - transfer.getMoney().getAmount());
+                // Send to KIR
+            }else{
+                getMoney().setAmount(getMoney().getAmount() + transfer.getMoney().getAmount());
             }
+            if(!exist) 
+                bank.getKir().sheduleTransferOperation(transfer);
         }
     }
     
@@ -43,7 +48,8 @@ public class Account implements IAccount{
     
     @Override
     public boolean equals(Object ob){
-        if(!(ob instanceof Account)) return false;
+        if(!(ob instanceof Account)) 
+            return false;
         return Objects.equals(accountNumber, ((Account)ob).accountNumber);
     }
 
@@ -54,29 +60,21 @@ public class Account implements IAccount{
         return hash;
     }
     
-    @Inject
-    public Account(IBank b){
-        this.bank = b;
-        this.history = new OperationsHistory();
-    }
-    
     @Override
     public void calculateIntrest(){
-        final ICurrency interest = state.calculateInterest(this);
-        if (interest != null){
-            if (this.money.getCurrency() == CurrencyUnit.PLN){
-                float value = this.money.getAmount();
-                this.money = BankModelowanie.dInjector.InjectCurrency(value + interest.getAmount(), CurrencyUnit.PLN);
-            }
+        final ICurrency intr = state.calculateInterest(this);
+        if (this.money.getCurrency() == CurrencyUnit.PLN && intr != null){
+            float value = this.money.getAmount();
+            this.money = BankModelowanie.getInjector().injectCurrency(value + intr.getAmount(), CurrencyUnit.PLN);
         }
     }
     
     @Override
-    public void Accept(Visitor visitor)
+    public void accept(Visitor visitor)
     {
         for(Operation op : history.getHistory())
         {
-            op.Accept(visitor);
+            op.accept(visitor);
         }
     }
     /**
@@ -131,7 +129,7 @@ public class Account implements IAccount{
      * @return the customer
      */
     @Override
-    public ArrayList<ICustomer> getCustomer() {
+    public List<ICustomer> getCustomer() {
         return customers;
     }
 
@@ -149,7 +147,7 @@ public class Account implements IAccount{
     }
 
     @Override
-    public void setCustomer(ArrayList<ICustomer> customer) {
+    public void setCustomer(List<ICustomer> customer) {
         this.customers = customer;
     }
 

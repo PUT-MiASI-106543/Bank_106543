@@ -11,17 +11,17 @@ import java.util.Objects;
 public class Customer implements ICustomer{
     private String name;
     private String surname;
-    private String PESEL;
+    private String pesel;
     private List<IAccount> accounts;
     
     public Customer(){
         accounts = new ArrayList<>();
     }
     
-    public Customer(String name, String surname, String PESEL){
+    public Customer(String name, String surname, String pesel){
     	this.name = name;
     	this.surname = surname;
-        this.PESEL = PESEL;
+        this.pesel = pesel;
         accounts = new ArrayList<>();
     }
     
@@ -39,14 +39,15 @@ public class Customer implements ICustomer{
     
     @Override
     public boolean equals(Object ob){
-        if(!(ob instanceof Customer)) return false;
-        return PESEL.equals(((Customer)ob).PESEL);
+        if(!(ob instanceof Customer)) 
+            return false;
+        return pesel.equals(((Customer)ob).pesel);
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this.PESEL);
+        hash = 59 * hash + Objects.hashCode(this.pesel);
         return hash;
     }
     
@@ -97,15 +98,15 @@ public class Customer implements ICustomer{
      */
     @Override
     public String getPESEL() {
-        return PESEL;
+        return pesel;
     }
 
     /**
      * @param PESEL the PESEL to set
      */
     @Override
-    public void setPESEL(String PESEL) {
-        this.PESEL = PESEL;
+    public void setPESEL(String pesel) {
+        this.pesel = pesel;
     }
 
     /**
@@ -115,6 +116,4 @@ public class Customer implements ICustomer{
     public List<IAccount> getAccounts() {
         return accounts;
     }
-    
-    
 }

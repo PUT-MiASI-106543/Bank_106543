@@ -2,7 +2,7 @@ package bankmodelowanie;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -10,28 +10,28 @@ import java.util.ArrayList;
  */
 public class DInjector {
     
-    public Injector injector;
+    private Injector injector;
     
     public DInjector(){
         injector = Guice.createInjector(new DependencyInjector());
     }
     
-    public ICustomer InjectCustomer(String name, String surname, String PESEL){
+    public ICustomer injectCustomer(String name, String surname, String pesel){
         ICustomer customer = injector.getInstance(ICustomer.class);
         
         customer.setName(name);
         customer.setSurname(surname);
-        customer.setPESEL(PESEL);
+        customer.setPESEL(pesel);
         
         return customer;
     }
     
-    public IAccount InjectAccount(ArrayList<ICustomer> customers, Long accNumber, OperationValidator validator){
+    public IAccount injectAccount(List<ICustomer> customers, Long accNumber, OperationValidator validator){
         IAccount account = injector.getInstance(IAccount.class);
-        IBank bank = this.InjectBank(123);
+        IBank bank = this.injectBank(123);
         
         account.setBank(bank);
-        account.setMoney(InjectCurrency(1000f, CurrencyUnit.PLN));
+        account.setMoney(injectCurrency(1000f, CurrencyUnit.PLN));
         account.setState(new LinearInterest(5.00f));
         account.setCustomer(customers);
         account.setAccNumber(accNumber);
@@ -40,7 +40,7 @@ public class DInjector {
         return account;
     }
     
-    public IAccount InjectAccount(IBank bank, ArrayList<ICustomer> customer, Long accNumber, ICurrency money, OperationValidator validator){
+    public IAccount injectAccount(IBank bank, List<ICustomer> customer, Long accNumber, ICurrency money, OperationValidator validator){
         IAccount account = injector.getInstance(IAccount.class);
         
         account.setBank(bank);
@@ -48,11 +48,12 @@ public class DInjector {
         account.setMoney(money);
         account.setOperationValidator(validator);
         account.setState(new LinearInterest(5.00f));
+        account.setAccNumber(accNumber);
         
         return account;
     }
     
-    public IAccount InjectAccount(IBank bank, ArrayList<ICustomer> customer, Long accNumber, ICurrency money, OperationValidator validator, InterestState state){
+    public IAccount injectAccount(IBank bank, List<ICustomer> customer, Long accNumber, ICurrency money, OperationValidator validator, InterestState state){
         IAccount account = injector.getInstance(IAccount.class);
         
         account.setBank(bank);
@@ -60,11 +61,12 @@ public class DInjector {
         account.setMoney(money);
         account.setOperationValidator(validator);
         account.setState(state);
+        account.setAccNumber(accNumber);
         
         return account;
     }
     
-    public IBank InjectBank(int id){
+    public IBank injectBank(int id){
         IBank bank = injector.getInstance(IBank.class);
         bank.setId(id);
         bank.setKir(KIR.getInstance());
@@ -72,8 +74,7 @@ public class DInjector {
     }
     
     
-    public ICurrency InjectCurrency(Float amount, CurrencyUnit currency){
-        ICurrency cur = new Currency(amount, currency);
-        return cur;
+    public ICurrency injectCurrency(Float amount, CurrencyUnit currency){
+        return new Currency(amount, currency);
     }
 }

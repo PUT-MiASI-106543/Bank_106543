@@ -5,8 +5,6 @@
  */
 package bankmodelowanie;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author MeloneQ

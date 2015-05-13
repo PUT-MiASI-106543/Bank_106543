@@ -14,7 +14,8 @@ public abstract class Operation {
      * visitator element
      * @param visitor 
      */
-    public void Accept(Visitor visitor){ }
+    public void accept(Visitor visitor){ 
+    }
     
     /**
      * @return the date
@@ -26,7 +27,9 @@ public abstract class Operation {
     /**
      * @return the report
      */
-    public String getReport(){return "";}
+    public String getReport(){
+        return "";
+    }
     
     /**
      * @return the accepted

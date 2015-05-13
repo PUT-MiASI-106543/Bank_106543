@@ -11,13 +11,11 @@ package bankmodelowanie;
  */
 public class AccountChainAmmount extends AccountChain{
     private AccountChain next;
-    private IAccount acc;
     private TransferOperation top;
 
     public AccountChainAmmount(IAccount acc, TransferOperation top)
     {
         super(acc, top);
-        this.acc = acc;
         this.top = top;
         this.next = new AccountChainNumberOfOperation(acc, top);
     }

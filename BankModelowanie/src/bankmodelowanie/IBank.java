@@ -7,7 +7,7 @@ package bankmodelowanie;
 public interface IBank {
     public KIR kir = null;
     public void transferFromKir(TransferOperation top);
-    public ICustomer getCustomerByPESEL(String PESEL);
+    public ICustomer getCustomerByPESEL(String pesel);
     public void addCustomer(ICustomer customer);
     public void removeCustomer(ICustomer customer);
     public void addProduct(Product product);

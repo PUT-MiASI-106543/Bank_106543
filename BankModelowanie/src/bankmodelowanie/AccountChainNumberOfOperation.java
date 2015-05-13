@@ -1,6 +1,5 @@
 package bankmodelowanie;
 
-import java.util.HashMap;
 
 /**
  *
@@ -9,13 +8,11 @@ import java.util.HashMap;
 public class AccountChainNumberOfOperation extends AccountChain{
     private final IAccount acc;
     private final TransferOperation top;
-    private final HashMap<Account, Integer> transfers;
     private AccountChain next;
     public AccountChainNumberOfOperation(IAccount acc, TransferOperation top) {
         super(acc, top);
         this.acc = acc;
         this.top = top;
-        transfers = new HashMap<>();
     }
     
     @Override
@@ -37,5 +34,9 @@ public class AccountChainNumberOfOperation extends AccountChain{
     public void setNext(AccountChain ac)
     {
         this.next = ac;
+    }
+    
+    public void runNext(){
+        this.next.operation();
     }
 }

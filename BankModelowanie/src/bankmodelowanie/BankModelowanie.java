@@ -6,7 +6,15 @@ package bankmodelowanie;
  */
 public class BankModelowanie {
 
-    public static DInjector dInjector;
+    private static DInjector dInjector;
+    
+    private BankModelowanie(){
+        
+    }
+    
+    public static DInjector getInjector(){
+        return dInjector;
+    }
     
     /**
      * @param args the command line arguments

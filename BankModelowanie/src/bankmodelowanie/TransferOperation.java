@@ -47,11 +47,13 @@ public class TransferOperation extends Operation{
         return receiver;
     }
     
-    public void Accept(Visitor visitor)
+    @Override
+    public void accept(Visitor visitor)
     {
-        visitor.TransferOperationVisitor(this);
+        visitor.transferOperationVisitor(this);
     }
     
+    @Override
     public String getReport()
     {
         return money.getAmount().toString()+", "+sender.getAccountNumber().toString()+", "+receiver.getAccountNumber().toString();
